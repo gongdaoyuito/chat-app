@@ -4,6 +4,7 @@ import { Database } from "@/types/supabasetype"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import ChatUI from "@/components/chats/chat"
+import 'remixicon/fonts/remixicon.css'
 
 export default function Chats() {
   const supabase = createClientComponentClient()
@@ -12,6 +13,7 @@ export default function Chats() {
   const [inputText, setInputText] = useState("")
   const [userID, setUserID] = useState("")
   const [messageText, setMessageText] = useState<Database["public"]["Tables"]["Chats"]["Row"][]>([])
+
 
   const fetchRealtimeData = () => {
     try {
@@ -95,25 +97,31 @@ export default function Chats() {
   return (
     <div className="flex-1 w-full flex flex-col items-center p-2">
       <h1 className="text-3xl font-bold pt-5 pb-10">{channelName}</h1>
-      <div className="w-full max-w-3xl mb-10 border-t-2 border-x-2">
+      <div className="w-full max-w-3xl mb-10">
         {messageText.map((item, index) => (
           <ChatUI chatData={item} index={index} key={item.id}></ChatUI>
         ))}
       </div>
 
       <form className="w-full max-w-md pb-10" onSubmit={onSubmitNewMessage}>
-        <div className="mb-5">
-          <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900">投稿内容</label>
+        <div className="mb-5 flex">
           <textarea id="message" name="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900
                  bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="投稿内容を入力" value={inputText} onChange={(event) => setInputText(() => event.target.value)}>
+            placeholder="メッセージを入力" value={inputText} onChange={(event) => setInputText(() => event.target.value)}>
           </textarea>
+          <button type="submit" disabled={inputText === ""} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-25">
+            送信
+          </button>
         </div>
-
-        <button type="submit" disabled={inputText === ""} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-25">
-          送信
-        </button>
       </form>
+      <div className='absolute bottom-0 w-full flex'>
+      <div className='flex-1'><i class="ri-home-line ri-4x"></i></div>
+      <div className='flex-1'><i class="ri-search-line ri-4x"></i></div>
+      <div className='flex-1'><i class="ri-notification-line ri-4x"></i></div>
+      <div className='flex-1'><i class="ri-chat-1-line ri-4x"></i></div>
+      <div className='flex-1'><i class="ri-user-line ri-4x"></i></div>
+      </div>
     </div>
+    
   )
 }

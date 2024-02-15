@@ -38,7 +38,6 @@ export default function ChatUI({ chatData, index }: Props) {
   return (
     <div className="p-2 border-b-2">
       <div className="flex">
-        <p className=" pr-2">{index + 1}</p>
         <h2 className="font-medium text-gray-900 truncate">{userName}</h2>
       </div>
       <div className="flex items-center justify-between">
